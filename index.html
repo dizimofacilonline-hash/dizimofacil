@@ -3,81 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dizimo Fácil - Em Construção</title>
-    <!-- Carregamento do Tailwind CSS para estilo e responsividade -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Dízimo Fácil - Administração dos dizimistas de sua paróquia simples e descomplicada">
+    <title>Dízimo Fácil - Gestão de Dizimistas</title>
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Configuração de fonte padrão e fundo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f9fb;
-            color: #1f2937; /* Cor de texto principal (cinza escuro) */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            color: #1f2937;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            overflow-x: hidden;
         }
-        /* Estilização para o link do WhatsApp */
-        .whatsapp-link {
-            transition: transform 0.2s, box-shadow 0.2s;
+
+        /* Overlay para suavizar o fundo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            z-index: 0;
         }
-        .whatsapp-link:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3), 0 4px 6px -2px rgba(34, 197, 94, 0.1);
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
         }
-        /* Estilização para o ícone do WhatsApp */
-        .whatsapp-icon {
-            fill: white;
-        }
-    </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary-blue': '#1e3a8a', /* Azul escuro da logo */
-                        'secondary-blue': '#38bdf8', /* Azul claro */
-                        'accent-green': '#22c55e', /* Verde do WhatsApp */
-                    }
-                }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-    </script>
-    <!-- Favicon (usando o arquivo enviado) -->
-    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+
+        .logo-container {
+            margin-bottom: 2.5rem;
+            animation: slideDown 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-wrapper {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 
+                        0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 380px;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2), 
+                        0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            display: block;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            margin-bottom: 2rem;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: #4b5563;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .whatsapp-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .whatsapp-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .whatsapp-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .whatsapp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-button:active {
+            transform: translateY(-1px);
+        }
+
+        .whatsapp-icon {
+            width: 28px;
+            height: 28px;
+            margin-right: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .button-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 1.25rem 1rem;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-3px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-text {
+            font-size: 0.875rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+            animation: fadeIn 0.8s ease-out 0.6s both;
+        }
+
+        footer p {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 0.75rem;
+            }
+
+            h1 {
+                font-size: 1.625rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .content-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .logo-wrapper {
+                padding: 1rem;
+                max-width: 320px;
+            }
+
+            .whatsapp-button {
+                font-size: 1rem;
+                padding: 0.875rem 1.75rem;
+            }
+
+            .features {
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-between p-4 sm:p-8">
-
-    <!-- Conteúdo Principal Centralizado -->
-    <div class="flex flex-col items-center text-center max-w-lg w-full">
-
-        <!-- Logo do Site -->
-        <div class="mb-8 w-full max-w-xs sm:max-w-sm">
-            <img src="unnamed5.jpg" 
-                 alt="Dízimo Fácil Logo" 
-                 class="w-full h-auto rounded-lg shadow-xl">
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo-wrapper">
+                <img src="unnamed5.jpg" alt="Dízimo Fácil Logo" loading="eager">
+            </div>
         </div>
 
-        <p class="text-lg sm:text-xl font-medium text-gray-700 mb-6 px-2">
-            A administração dos dizimistas de sua paróquia simples e descomplicada.
-        </p>
+        <div class="content-card">
+            <h1>Bem-vindo ao Dízimo Fácil</h1>
+            <p class="subtitle">
+                A administração dos dizimistas de sua paróquia simples, descomplicada e eficiente.
+            </p>
 
+            <a href="https://wa.me/5527996068115" target="_blank" rel="noopener noreferrer" class="whatsapp-button">
+                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                <span class="button-text">Fale Conosco no WhatsApp</span>
+            </a>
 
-        <!-- Botão/Link do WhatsApp -->
-        <a href="https://wa.me/5527996068115" target="_blank" 
-           class="whatsapp-link inline-flex items-center justify-center bg-accent-green hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out">
-            
-            <!-- Ícone SVG do WhatsApp (para melhor visual em qualquer tela) -->
-            <svg class="whatsapp-icon w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12.001 2c-5.525 0-10 4.477-10 10s4.475 10 10 10 10-4.477 10-10-4.475-10-10-10zm.001 17.5c-4.148 0-7.5-3.352-7.5-7.5s3.352-7.5 7.5-7.5 7.5 3.352 7.5 7.5-3.352 7.5-7.5 7.5zm-1.025-10.706c.108-.095.234-.142.365-.142.13 0 .258.047.365.142.215.19.323.473.323.778v1.396c0 .304-.108.588-.323.778-.214.19-.504.285-.87.285h-1.05c-.366 0-.656-.095-.87-.285-.214-.19-.323-.474-.323-.778v-1.396c0-.305.109-.588.323-.778.214-.19.504-.285.87-.285h1.05zm2.05-.181h1.05c.366 0 .656.095.87.285.214.19.323.473.323.778v1.396c0 .304-.109.588-.323.778-.214.19-.504.285-.87.285h-1.05c-.366 0-.656-.095-.87-.285-.214-.19-.323-.474-.323-.778v-1.396c0-.305.109-.588.323-.778.214-.19.504-.285.87-.285zm-2.05 4.359h1.05c.366 0 .656.095.87.285.214.19.323.473.323.778v1.396c0 .304-.109.588-.323.778-.214.19-.504.285-.87.285h-1.05c-.366 0-.656-.095-.87-.285-.214-.19-.323-.474-.323-.778v-1.396c0-.305.109-.588.323-.778.214-.19.504-.285.87-.285zm2.05-.181h1.05c.366 0 .656.095.87.285.214.19.323.473.323.778v1.396c0 .304-.109.588-.323.778-.214.19-.504.285-.87.285h-1.05c-.366 0-.656-.095-.87-.285-.214-.19-.323-.474-.323-.778v-1.396c0-.305.109-.588.323-.778.214-.19.504-.285.87-.285z"/>
-                <circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="1.5"/>
-            </svg>
-            Fale Conosco no WhatsApp
-        </a>
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-text">Gestão Simplificada</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-text">Dados Seguros</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-text">Rápido e Fácil</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Rodapé -->
-    <footer class="mt-auto pt-8 border-t border-gray-200 w-full text-center">
-        <p class="text-sm text-gray-500">
-            &copy; 2025 – Dizimo Fácil
-        </p>
+    <footer>
+        <p>&copy; 2025 — Dízimo Fácil | Desenvolvido com dedicação</p>
     </footer>
-
 </body>
 </html>
